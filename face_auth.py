@@ -5,6 +5,9 @@ import os
 # Function to capture the face and save the image
 def register_face(title):
     cap = cv2.VideoCapture(0)
+    
+    result = False
+    
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -17,6 +20,7 @@ def register_face(title):
             os.makedirs('registered', exist_ok=True)
             cv2.imwrite(f'registered/{title}.jpg', frame)
             print(f"[FACE AUTH] Face registered as '{title}.jpg'")
+            result = True
             break
         elif key == ord('q'):
             print("[FACE AUTH] Registration cancelled")
@@ -24,10 +28,15 @@ def register_face(title):
     
     cap.release()
     cv2.destroyAllWindows()
+    
+    return result
 
 # Function to capture a auth image
 def capture_auth_image(title):
     cap = cv2.VideoCapture(0)
+    
+    result = False
+    
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -40,6 +49,7 @@ def capture_auth_image(title):
             os.makedirs('auth', exist_ok=True)
             cv2.imwrite(f'auth/{title}_auth.jpg', frame)
             print(f"[FACE AUTH] Auth image saved as '{title}_auth.jpg'")
+            result = True
             break
         elif key == ord('q'):
             print("[FACE AUTH] Capture canceled")
@@ -47,6 +57,8 @@ def capture_auth_image(title):
     
     cap.release()
     cv2.destroyAllWindows()
+    
+    return result
 
 # Function for face recognition
 def recognize_face(known_face_path, unknown_face_path):
